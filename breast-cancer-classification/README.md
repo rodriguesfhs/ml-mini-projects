@@ -17,7 +17,7 @@ This notebook walks through a complete supervised classification workflow on the
 - model training and evaluation
 - visualisation of training curves
 - confusion matrix and classification report
-- SHAP feature importance: global bar plot, beeswarm, and per-sample waterfall
+- SHAP feature importance: global bar plot, beeswarm, per-sample waterfall, and feature-level scatter plots
 
 The goal is not to build the most complex model possible, but to demonstrate a clear, reproducible, and interpretable end-to-end workflow in Python.
 
@@ -86,15 +86,16 @@ Input (30) → Linear → ReLU → Linear → Output (2)
 
 ### 7. SHAP Analysis
 
-Three SHAP visualisations are used to interrogate the model:
+Four types of SHAP visualisation are used to interrogate the model at different levels:
 
 | Plot | Level | What it shows |
 |------|-------|---------------|
 | Summary bar | Global | Mean absolute SHAP value per feature, ranked by overall importance |
 | Beeswarm | Global | SHAP value per sample per feature, coloured by feature value |
 | Waterfall | Local (single sample) | How each feature pushed one prediction away from the baseline |
+| Scatter | Feature-level | Relationship between a feature's actual value and its SHAP value across all samples |
 
-`shap.DeepExplainer` is used to compute SHAP values. Waterfall plots are shown for one representative benign and one representative malignant sample, selected deterministically from the test set.
+`shap.DeepExplainer` is used to compute SHAP values. Waterfall plots are shown for one representative benign and one representative malignant sample, selected deterministically from the test set. Scatter plots are shown for three features that illustrate contrasting relationships: Mean Area (positive monotonic), Worst Symmetry (positive monotonic), and Fractal Dimension SE (negative monotonic, with a notable outlier).
 
 ## Results
 
@@ -108,6 +109,8 @@ The model correctly classified 112 out of 114 held-out samples, achieving 98% ac
 Only one malignant case in 42 was missed. In a diagnostic context, missed malignancies matter more than false alarms, so recall on the malignant class is the number to watch.
 
 SHAP identified **Mean Area** as the feature with the largest influence on predictions, followed by Mean Texture, Mean Radius, and Worst Concave Points. This is consistent with how pathologists read FNA slides: larger nuclei with irregular shapes tend to indicate malignancy. Mean Area, Mean Radius, and Mean Perimeter all measure variations of the same thing and should be read together rather than separately.
+
+The scatter plots showed that most features have clean monotonic relationships with the prediction. Mean Area and Worst Symmetry push toward malignant as their values increase; Fractal Dimension SE and Mean Fractal Dimension push toward benign. One outlier in Fractal Dimension SE sits well outside the training distribution and warrants attention if the model is applied to new data.
 
 ## Requirements
 
@@ -139,4 +142,4 @@ This project demonstrates:
 - PyTorch fundamentals for binary classification
 - correct train/test data handling and scaling
 - evaluation with clinically relevant metrics
-- model interpretability with SHAP at both global and sample level
+- model interpretability with SHAP across global, local, and feature-level views

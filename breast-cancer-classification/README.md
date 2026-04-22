@@ -4,7 +4,7 @@ A compact machine learning project that builds a feedforward neural network in P
 
 ## Overview
 
-This notebook walks through a complete supervised classification workflow on the **Diagnostic Breast Cancer Dataset** from Kaggle. The project focuses on a clean, readable, and reproducible implementation of a binary classifier for tabular data, including:
+This notebook walks through a complete supervised classification workflow on the **Diagnostic Breast Cancer Dataset** from Kaggle. The focus is on a clean, readable, and reproducible binary classifier for tabular data, including:
 
 - loading the dataset from Kaggle
 - basic data inspection
@@ -17,9 +17,9 @@ This notebook walks through a complete supervised classification workflow on the
 - model training and evaluation
 - visualisation of training curves
 - confusion matrix and classification report
-- SHAP-based feature importance analysis
+- SHAP feature importance: global bar plot, beeswarm, and per-sample waterfall
 
-The goal is not to build the most complex model possible, but to demonstrate a clear, reproducible, and interpretable end-to-end ML workflow in Python.
+The goal is not to build the most complex model possible, but to demonstrate a clear, reproducible, and interpretable end-to-end workflow in Python.
 
 ## Dataset
 
@@ -84,22 +84,30 @@ Input (30) → Linear → ReLU → Linear → Output (2)
 - confusion matrix
 - classification report (precision, recall, F1-score per class)
 
-### 7. SHAP Feature Importance
+### 7. SHAP Analysis
 
-`shap.DeepExplainer` is used to compute SHAP values for the malignant class across the test set. Results are visualised as a global bar chart of mean absolute SHAP values, ranking all 30 features by their average contribution to the model's predictions.
+Three SHAP visualisations are used to interrogate the model:
+
+| Plot | Level | What it shows |
+|------|-------|---------------|
+| Summary bar | Global | Mean absolute SHAP value per feature, ranked by overall importance |
+| Beeswarm | Global | SHAP value per sample per feature, coloured by feature value |
+| Waterfall | Local (single sample) | How each feature pushed one prediction away from the baseline |
+
+`shap.DeepExplainer` is used to compute SHAP values. Waterfall plots are shown for one representative benign and one representative malignant sample, selected deterministically from the test set.
 
 ## Results
 
-The model achieved **98% accuracy** on the held-out test set (114 samples), with the following per-class performance:
+The model correctly classified 112 out of 114 held-out samples, achieving 98% accuracy. Per-class performance:
 
 | Class     | Precision | Recall | F1-score | Support |
 |-----------|-----------|--------|----------|---------|
 | Benign    | 0.99      | 0.99   | 0.99     | 72      |
 | Malignant | 0.98      | 0.98   | 0.98     | 42      |
 
-In a clinical screening context, recall on the malignant class is the critical metric, as false negatives carry greater consequence than false positives. Only one malignant case in 42 was missed.
+Only one malignant case in 42 was missed. In a diagnostic context, missed malignancies matter more than false alarms, so recall on the malignant class is the number to watch.
 
-SHAP analysis identified **Mean Area** as the strongest predictor of malignancy, followed by Mean Texture, Worst Smoothness, Mean Radius, and Worst Concave Points; consistent with the known morphological basis of FNA-based diagnosis. Note that several top features (Mean Area, Mean Radius, Mean Perimeter) are correlated size descriptors and should be interpreted collectively.
+SHAP identified **Mean Area** as the feature with the largest influence on predictions, followed by Mean Texture, Mean Radius, and Worst Concave Points. This is consistent with how pathologists read FNA slides: larger nuclei with irregular shapes tend to indicate malignancy. Mean Area, Mean Radius, and Mean Perimeter all measure variations of the same thing and should be read together rather than separately.
 
 ## Requirements
 
@@ -118,17 +126,17 @@ The dataset is downloaded automatically inside the notebook via `kagglehub`. No 
 ## Potential Next Steps
 
 - compare against logistic regression and random forest baselines
-- add k-fold cross-validation for more robust performance estimates
-- tune the decision threshold to maximise malignant recall
-- refactor training loop to use `TensorDataset` and `DataLoader`
+- add k-fold cross-validation for a more robust performance estimate
+- tune the decision threshold to reduce missed malignancies further
+- refactor the training loop to use `TensorDataset` and `DataLoader`
 
 ## Purpose
 
-This is a compact portfolio project designed to demonstrate:
+This project demonstrates:
 
-- practical ML workflow design
+- end-to-end ML workflow for tabular classification
 - clean and reproducible notebook structure
-- PyTorch fundamentals for tabular classification
+- PyTorch fundamentals for binary classification
 - correct train/test data handling and scaling
-- sensible evaluation with clinically relevant metrics
-- model interpretability with SHAP
+- evaluation with clinically relevant metrics
+- model interpretability with SHAP at both global and sample level

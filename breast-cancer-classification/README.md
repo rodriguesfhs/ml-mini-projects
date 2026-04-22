@@ -26,7 +26,7 @@ The goal is not to build the most complex model possible, but to demonstrate a c
 **Source:** Kaggle  
 **Dataset:** [Diagnostic Breast Cancer Dataset](https://www.kaggle.com/datasets/ahmeduzaki/diagnostic-breast-cancer-dataset)
 
-The dataset contains 569 samples and 30 numerical features describing characteristics of cell nuclei extracted from fine needle aspirate (FNA) biopsy images, such as radius, texture, perimeter, area, and smoothness -- each recorded as mean, standard error, and worst value.
+The dataset contains 569 samples and 30 numerical features describing characteristics of cell nuclei extracted from fine needle aspirate (FNA) biopsy images, such as radius, texture, perimeter, area, and smoothness; each recorded as mean, standard error, and worst value.
 
 Target label:
 - **Benign**
@@ -99,7 +99,7 @@ The model achieved **98% accuracy** on the held-out test set (114 samples), with
 
 In a clinical screening context, recall on the malignant class is the critical metric, as false negatives carry greater consequence than false positives. Only one malignant case in 42 was missed.
 
-SHAP analysis identified **Mean Area** as the strongest predictor of malignancy, followed by Mean Texture, Worst Smoothness, Mean Radius, and Worst Concave Points -- consistent with the known morphological basis of FNA-based diagnosis. Note that several top features (Mean Area, Mean Radius, Mean Perimeter) are correlated size descriptors and should be interpreted collectively.
+SHAP analysis identified **Mean Area** as the strongest predictor of malignancy, followed by Mean Texture, Worst Smoothness, Mean Radius, and Worst Concave Points; consistent with the known morphological basis of FNA-based diagnosis. Note that several top features (Mean Area, Mean Radius, Mean Perimeter) are correlated size descriptors and should be interpreted collectively.
 
 ## Requirements
 

@@ -52,7 +52,12 @@ As the repository grows, each project folder may contain its own notebook, scrip
 ## Current Projects
 
 ### 1. Diagnostic Breast Cancer Classification with PyTorch
-A binary classification project using a simple feedforward neural network in PyTorch to classify breast cancer cases as benign or malignant from tabular diagnostic features.
+
+A binary classification project using a simple feedforward neural network in PyTorch to classify breast cancer cases as benign or malignant from tabular diagnostic features extracted from fine needle aspirate biopsies. Includes SHAP-based feature importance analysis.
+
+### 2. Research Centre Infrastructure Clustering with K-Means
+
+An unsupervised learning project that groups research centres into quality tiers (Basic, Standard, Premium) based on internal facilities and surrounding healthcare infrastructure. Includes elbow method for k selection, programmatic tier mapping, and silhouette score evaluation.
 
 ## Approach
 

@@ -52,3 +52,4 @@ jupyter notebook EDA_and_Model.ipynb
 - Correlated features (internal count, density, diversity) slightly over-weight their shared variance in the Euclidean distance K-Means optimises
 - k = 3 is supported by the elbow plot and domain framing, but alternative values of k were not extensively evaluated
 - A larger or more diverse dataset would allow more robust cluster validation
+- The dataset is not included in this repository as it is proprietary. To run the notebook, substitute a CSV with the column structure described above.

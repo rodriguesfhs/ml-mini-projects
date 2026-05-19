@@ -40,8 +40,8 @@ Geographic coordinates were excluded as they describe location rather than quali
 ## How to run
 
 ```bash
-git clone https://github.com/rodriguesfhs/research-grid
-cd research-grid/research-center-assignment
+git clone https://github.com/rodriguesfhs/ml-mini-projects
+cd ml-mini-projects/research-center-assignment
 pip install -r requirements.txt
 jupyter notebook EDA_and_Model.ipynb
 ```
